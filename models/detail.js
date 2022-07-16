@@ -3,24 +3,24 @@ import db from '../config/database.js';
 
 const { DataTypes } = Sequelize;
 
-const Paket = db.define('paket',{
+const Detail = db.define('detail',{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
+    },
+    no_trx: {
+        type: DataTypes.STRING
     },
     nama_paket: {
         type: DataTypes.STRING
     },
     harga: {
         type: DataTypes.INTEGER
-    },
-    vendor: {
-        type: DataTypes.STRING
     }
 },{
     freezeTableName: true,
     timestamps: false
 });
 
-export default Paket;
+export default Detail;
