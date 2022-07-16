@@ -1,0 +1,134 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <button type="button" class="m-0 btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahPaket">Tambah
+        Paket</button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Paket</th>
+              <th>Harga</th>
+              <th>Vendor</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let no=1; %>
+              <% data.forEach( element=> { %>
+                <tr>
+                  <td>
+                    <%= no++ %>
+                  </td>
+                  <td>
+                    <%= element.nama_paket %>
+                  </td>
+                  <td>Rp<%= element.harga.toLocaleString('id-ID') %>
+                  </td>
+                  <td>
+                    <%= element.vendor %>
+                  </td>
+                  <td>
+                    <button type="button" data-toggle="modal" data-target="#editPaket<%= element.id %>"
+                      class="badge badge-warning border-0">edit</button>
+
+                    <div class="modal fade" id="editPaket<%= element.id %>" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Tambah Paket Baru</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form method="POST" action="/paket/update">
+                            <input type="hidden" name="id" value="<%= element.id %>">
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <label class="col-form-label">Nama Paket:</label>
+                                <input type="text" class="form-control" name="nama_paket"
+                                  value="<%= element.nama_paket %>">
+                              </div>
+                              <div class="form-group">
+                                <label class="col-form-label">Harga:</label>
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                  </div>
+                                  <input type="number" class="form-control" name="harga" value="<%= element.harga %>">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-form-label">Vendor:</label>
+                                <input type="text" class="form-control" name="vendor" value="<%= element.vendor %>">
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <form action="/paket/delete" method="POST" class="d-inline">
+                      <input type="hidden" name="id" value="<%= element.id %>">
+                      <button type="submit" class="badge badge-danger border-0">hapus</button>
+                    </form>
+                  </td>
+                </tr>
+                <% }) ;%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- /.container-fluid -->
+
+<div class="modal fade" id="tambahPaket" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Paket Baru</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/paket/addPaket">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="col-form-label">Nama Paket:</label>
+            <input type="text" class="form-control" name="nama_paket" placeholder="Tulis nama paket disini...">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Harga:</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Rp</span>
+              </div>
+              <input type="number" class="form-control" name="harga" placeholder="Tulis harga paket disini...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Vendor:</label>
+            <input type="text" class="form-control" name="vendor" placeholder="Tulis nama vendor disini...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

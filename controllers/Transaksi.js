@@ -2,10 +2,16 @@ import Model from '../models/index.js'
 
 export const getAllTransaksi = async (req, res) => {
   try {
-    const hasil = await Model.Transaksi.findAll();
-    res.status(200).json({
-      message: 'sukses',
-      data: hasil
+    const hasil = await Model.Transaksi.findAll({
+      include: [
+        {model: Model.Pelanggan},
+      ],
+    });
+    res.render('pages/transaksi', {
+      layout: 'layouts/dashboard',
+      title: 'Transaksi',
+      data: hasil,
+      url: req.originalUrl
     });
   } catch (error) {
     console.log(error)
@@ -30,7 +36,7 @@ export const getTransaksi = async (req, res) => {
 
 export const updateTransaksi = async (req, res) => {
   try {
-    await Model.Transaksi.update(req.body,{
+    await Model.Transaksi.update(req.body, {
       where: {
         no_trx: req.params.trx
       }

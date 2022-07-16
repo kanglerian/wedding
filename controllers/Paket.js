@@ -3,10 +3,13 @@ import Model from '../models/index.js'
 export const getAllPaket = async (req, res) => {
   try {
     const hasil = await Model.Paket.findAll();
-    res.status(200).json({
-      message: 'sukses',
-      data: hasil
+    res.render('pages/paket',{
+      layout: 'layouts/dashboard',
+      title: 'Paket',
+      data: hasil,
+      url: req.originalUrl
     });
+    res.redirect('back');
   } catch (error) {
     console.log(error)
   }
@@ -32,12 +35,10 @@ export const updatePaket = async (req, res) => {
   try {
     await Model.Paket.update(req.body,{
       where: {
-        id: req.params.id
+        id: req.body.id
       }
     });
-    res.status(200).json({
-      message: 'telah diperbarui.',
-    });
+    res.redirect('back');
   } catch (error) {
     console.log(error)
   }
@@ -46,9 +47,7 @@ export const updatePaket = async (req, res) => {
 export const addPaket = async (req, res) => {
   try {
     await Model.Paket.create(req.body);
-    res.status(200).json({
-      message: 'telah ditambahkan.',
-    });
+    res.redirect('back');
   } catch (error) {
     console.log(error)
   }
@@ -58,12 +57,10 @@ export const deletePaket = async (req, res) => {
   try {
     await Model.Paket.destroy({
       where: {
-        id: req.params.id
+        id: req.body.id
       }
     });
-    res.status(200).json({
-      message: 'Telah dihapus.',
-    });
+    res.redirect('back');
   } catch (error) {
     console.log(error)
   }

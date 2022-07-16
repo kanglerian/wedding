@@ -3,9 +3,11 @@ import Model from '../models/index.js'
 export const getAllPelanggan = async (req, res) => {
   try {
     const hasil = await Model.Pelanggan.findAll();
-    res.status(200).json({
-      message: 'sukses',
-      data: hasil
+    res.render('pages/pelanggan', {
+      layout: 'layouts/dashboard',
+      title: 'Pelanggan',
+      data: hasil,
+      url: req.originalUrl
     });
   } catch (error) {
     console.log(error)
@@ -32,7 +34,7 @@ export const updatePelanggan = async (req, res) => {
   try {
     await Model.Pelanggan.update(req.body,{
       where: {
-        nik: req.params.nik
+        nik: req.body.niklama
       }
     });
     res.status(200).json({
@@ -58,7 +60,7 @@ export const deletePelanggan = async (req, res) => {
   try {
     await Model.Pelanggan.destroy({
       where: {
-        nik: req.params.nik
+        nik: req.body.nik
       }
     });
     res.status(200).json({

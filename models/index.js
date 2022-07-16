@@ -9,4 +9,7 @@ Model.Pelanggan = Pelanggan;
 Model.Transaksi = Transaksi;
 Model.Detail = Detail;
 
+Pelanggan.hasMany(Transaksi, {foreignKey: 'id_pelanggan'});
+Transaksi.belongsTo(Pelanggan, {foreignKey: 'id_pelanggan'});
+
 export default Model;

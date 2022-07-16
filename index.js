@@ -1,4 +1,6 @@
 import express from 'express';
+import expressEjsLayouts from 'express-ejs-layouts';
+import methodOverride from 'method-override';
 const app = express();
 const port = 3000;
 
@@ -7,15 +9,19 @@ import { addTransaksi, deleteTransaksi, getAllTransaksi, getTransaksi, updateTra
 import { addPelanggan, deletePelanggan, getAllPelanggan, getPelanggan, updatePelanggan } from './controllers/Pelanggan.js';
 import { addPaket, deletePaket, getAllPaket, getPaket, updatePaket } from './controllers/Paket.js';
 
+app.set('view engine', 'ejs');
+app.use(expressEjsLayouts);
+app.use(methodOverride('_method'));
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-/* Urutannya: add, delete, update, getOne, getAll */
 
+/* Urutannya: add, delete, update, getOne, getAll */
 app.use('/detail/addDetail', addDetail);
 app.use('/detail/delete/:id', deleteDetail);
 app.use('/detail/update/:id', updateDetail);
-app.use('/detail/:id', getDetail);
+app.use('/detail/:trx', getDetail);
 app.use('/detail', getAllDetail);
 
 app.use('/transaksi/addTransaksi', addTransaksi);
@@ -31,8 +37,8 @@ app.use('/pelanggan/:nik', getPelanggan);
 app.use('/pelanggan', getAllPelanggan);
 
 app.use('/paket/addPaket', addPaket);
-app.use('/paket/delete/:id', deletePaket);
-app.use('/paket/update/:id', updatePaket);
+app.use('/paket/delete', deletePaket);
+app.use('/paket/update', updatePaket);
 app.use('/paket/:id', getPaket);
 app.use('/paket', getAllPaket);
 

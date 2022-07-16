@@ -14,14 +14,16 @@ export const getAllDetail = async (req, res) => {
 
 export const getDetail = async (req, res) => {
   try {
-    const hasil = await Model.Detail.findOne({
+    const hasil = await Model.Detail.findAll({
       where: {
-        id: req.params.id
+        no_trx: req.params.trx
       }
     });
-    res.status(200).json({
-      message: 'sukses',
-      data: hasil
+    res.render('pages/detail', {
+      layout: 'layouts/dashboard',
+      title: 'Detail',
+      data: hasil,
+      url: req.originalUrl
     });
   } catch (error) {
     console.log(error)
