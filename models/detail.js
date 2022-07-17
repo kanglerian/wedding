@@ -9,6 +9,9 @@ const Detail = db.define('detail',{
         primaryKey: true,
         autoIncrement: true
     },
+    id_paket: {
+        type: DataTypes.INTEGER
+    },
     no_trx: {
         type: DataTypes.STRING
     },

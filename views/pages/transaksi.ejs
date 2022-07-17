@@ -1,11 +1,61 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
-      <button type="button" class="m-0 btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahTransaksi">Tambah
-        Transaksi</button>
+      <!-- <button type="button" class="m-0 btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahTransaksi">Tambah
+        Transaksi</button> -->
+      <form action="/transaksi/addTransaksi" method="POST" id="formPJ">
+        <div class="form-row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>No. Transaksi</label>
+              <input type="text" class="form-control" name="no_trx" value="<%= Date.now()%>">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Pelanggan</label>
+              <input type="text" class="form-control" name="id_pelanggan" placeholder="0">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Potongan</label>
+              <input type="date" name="tanggal" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="d-flex">
+              <button type="button" style="margin-top:35px" onclick="tambahForm()"
+                class="btn btn-primary btn-sm mr-2 btn-block">(+)</button>
+              <button type="button" style="margin-top:35px" onclick="hapusForm()"
+                class="btn btn-danger btn-sm btn-block">(-)</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="col-md-12" id="hasil">
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="id_paket[]" placeholder="Tulis ID Barang disini..."
+                    autofocus>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="nama_paket[]" placeholder="Tulis ID Barang disini..."
+                    autofocus>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Content ID Barang -->
+        </div>
+      </form>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -20,28 +70,6 @@
             </tr>
           </thead>
           <tbody>
-            <% let no=1; %>
-              <% data.forEach(element => { %>
-                <tr>
-                  <td>
-                    <%= no++ %>
-                  </td>
-                  <td>
-                    <%= element.no_trx %>
-                  </td>
-                  <td><%= element.tanggal.toLocaleDateString('id-ID') %></td>
-                  <td>
-                    <%= element.pelanggan.nama_lengkap %>
-                  </td>
-                  <td>
-                    <a href="/detail/<%= element.no_trx %>" class="badge badge-primary border-0">detail</a>
-                    <form action="/paket/delete" method="POST" class="d-inline">
-                      <input type="hidden" name="id" value="<%= element.id %>">
-                      <button type="submit" class="badge badge-danger border-0">hapus</button>
-                    </form>
-                  </td>
-                </tr>
-                <% }) ;%>
           </tbody>
         </table>
       </div>
@@ -93,3 +121,45 @@
     </div>
   </div>
 </div>
+
+<script>
+  function tambahForm() {
+    const element = `
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+						<input type="number" class="form-control" name="id_paket[]" placeholder="Tulis ID Barang disini..." autofocus>
+					</div>
+				</div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" name="nama_paket[]" placeholder="Tulis ID Barang disini..."autofocus>
+          </div>
+        </div>
+		</div>
+		`;
+    const form = document.createElement("div");
+    form.innerHTML = element;
+    document.getElementById('hasil').appendChild(form);
+  }
+
+  function hapusForm() {
+    const list = document.getElementById('hasil');
+    list.removeChild(list.lastElementChild);
+  }
+  document.addEventListener('keyup', (event) => {
+    if (event.code === 'F1') {
+      tambahForm();
+    } else if (event.code === 'F2') {
+      hapusForm();
+    } else if (event.code === 'Enter') {
+      document.getElementById("formPJ").submit();
+    }
+  }, false);
+	// document.addEventListener('keyup', (event) => {
+	// 	var name = event.key;
+	// 	var code = event.code;
+	// 	// Alert the key name and key code on keydown
+	// 	alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+	// }, false);
+</script>
